@@ -12,6 +12,7 @@ class BootStrap
 	private $Registered;
 	private $api, $server;
 	private $path;
+	private $config;
 
 	public function __construct($data)
 	{
@@ -22,7 +23,13 @@ class BootStrap
 		$this->api = $data['api'];
 		$this->server = $data['server'];
 
-		foreach ($data['config']->get("Commands") as $key => $value) {
+		$this->config['config'] = new Config($this->path . "config.yml", CONFIG_YAML, array(
+			"Commands" => array(
+				"framework" => ""
+			),
+		));
+
+		foreach ($this->config['config']->get("Commands") as $key => $value) {
 			$this->Registered->Commands->$key = new stdClass();
 			$this->Registered->Commands->$key = $value;
 			if (include ($value) != 'OK')

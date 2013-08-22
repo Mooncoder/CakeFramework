@@ -25,12 +25,6 @@ class Framework implements Plugin
 
 	public function init()
 	{
-		$this->config['config'] = new Config($this->api->plugin->configPath($this) . "config.yml", CONFIG_YAML, array(
-			"Commands" => array(
-				"framework" => ""
-			),
-		));
-
 		//Include Bootstrap - Bootstrap variable can be later unset to reload framework.
 		require_once($this->api->plugin->configPath($this) . "Libs/BootStrap.php");
 		$BootStrap = new BootStrap(array(
@@ -41,6 +35,9 @@ class Framework implements Plugin
 		));
 
 		$this->api->addHandler("console.command", array($BootStrap, "commandHandler"), 50);
+		$this->api->addHandler("console.command.unknown", function () {
+			return false;
+		}, 50);
 	}
 
 	public function __destruct()
