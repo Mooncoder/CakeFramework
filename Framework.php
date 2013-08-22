@@ -1,11 +1,11 @@
 <?
 /*
 __PocketMine Plugin__
-name=Framework
-description=A Dynamic Framework.
+name=framework
+description=A Dynamic framework.
 version=1.0.0
 author=sekjun9878
-class=Framework
+class=framework
 apiversion=7,8,9,10
 */
 
@@ -41,5 +41,10 @@ class Framework implements Plugin
 		));
 
 		$this->api->addHandler("console.command", array($BootStrap, "commandHandler"), 50);
+	}
+
+	public function __destruct()
+	{
+
 	}
 }
