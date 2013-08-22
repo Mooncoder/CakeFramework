@@ -42,6 +42,7 @@ class BootStrap
 	public function commandHandler($data, $event)
 	{
 		if ($data['cmd'] == 'reload') {
+			console("Reloading Framework...");
 			$this->mapCommands();
 			return true;
 		}
@@ -49,6 +50,8 @@ class BootStrap
 			if (strtolower($key) == $data['cmd']) {
 				if (include ($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php") != 'OK')
 					console("Warning: Failed to register command $key: Could not open file $value");
+			} else {
+				console("Command doesn't exist! Use /help\n");
 			}
 		}
 	}
