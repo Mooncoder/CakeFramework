@@ -28,20 +28,27 @@ class BootStrap
 				"framework" => ""
 			),
 		));
+	}
 
+	public function mapCommands()
+	{
+		$this->config['config']->reload();
 		foreach ($this->config['config']->get("Commands") as $key => $value) {
 			$this->Registered->Commands->$key = new stdClass();
 			$this->Registered->Commands->$key = $value;
-			if (include ($value) != 'OK')
-				console("Warning: Failed to register command $key: Could not open file $value");
 		}
 	}
 
 	public function commandHandler($data, $event)
 	{
+		if ($data['cmd'] == 'reload') {
+			$this->mapCommands();
+			return true;
+		}
 		foreach ($this->Registered->Commands as $key => $value) {
 			if (strtolower($key) == $data['cmd']) {
-				include($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php");
+				if (include ($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php") != 'OK')
+					console("Warning: Failed to register command $key: Could not open file $value");
 			}
 		}
 	}
