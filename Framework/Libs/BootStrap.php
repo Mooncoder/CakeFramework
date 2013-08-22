@@ -23,7 +23,7 @@ class BootStrap
 		$this->api = $data['api'];
 		$this->server = $data['server'];
 
-		$this->config['config'] = new Config($this->path . "config.yml", CONFIG_YAML, array(
+		$this->config['config'] = new Config($this->path . "Commands.yml", CONFIG_YAML, array(
 			"Commands" => array(
 				"framework" => ""
 			),
