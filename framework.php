@@ -26,8 +26,9 @@ class Framework implements Plugin
 	public function init()
 	{
 		$this->config['config'] = new Config($this->api->plugin->configPath($this) . "config.yml", CONFIG_YAML, array(
-			"enable" => false,
-			"BFSseverity" => 3, //1:Info 2:notice 3:warning 4:error 5:danger
+			"Commands" => array(
+				"framework" => ""
+			),
 		));
 
 		//Include Bootstrap - Bootstrap variable can be later unset to reload framework.
@@ -36,6 +37,7 @@ class Framework implements Plugin
 			"config" => $this->config['config'],
 			"api" => $this->api,
 			"server" => $this->server,
+			"path" => $this->api->plugin->configPath($this),
 		));
 
 		$this->api->addHandler("console.command", array($BootStrap, "commandHandler"), 50);

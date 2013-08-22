@@ -11,11 +11,14 @@ class BootStrap
 {
 	private $Registered;
 	private $api, $server;
+	private $path;
 
 	public function __construct($data)
 	{
 		$this->Registered = new stdClass();
 		$this->Registered->Commands = new stdClass();
+
+		$path = $data['path'];
 
 		foreach ($data['config']['Commands'] as $key => $value) {
 			$this->Registered->Commands->$key = new stdClass();
@@ -29,7 +32,7 @@ class BootStrap
 	{
 		foreach ($this->Registered->Commands as $key => $value) {
 			if ($key == $data['cmd']) {
-				include($value);
+				include($this->path . "Commands/" . $key);
 			}
 		}
 	}
