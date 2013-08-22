@@ -28,6 +28,8 @@ class BootStrap
 				"framework" => ""
 			),
 		));
+
+		$this->mapCommands();
 	}
 
 	public function mapCommands()
@@ -51,7 +53,7 @@ class BootStrap
 				if (file_exists($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php") == true) {
 					include($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php");
 				} else {
-					console("Warning: Failed to perform command $key: Could not open file $value");
+					console("Warning: Failed to perform command $key. Failed to open file.");
 				}
 			} else {
 				console("Command doesn't exist! Use /help\n");
