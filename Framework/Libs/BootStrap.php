@@ -31,8 +31,8 @@ class BootStrap
 	public function commandHandler($data, $event)
 	{
 		foreach ($this->Registered->Commands as $key => $value) {
-			if ($key == $data['cmd']) {
-				include($this->path . "Commands/" . $key);
+			if (strtolower($key) == $data['cmd']) {
+				include($this->path . "Commands/" . ucfirst(strtolower($key)));
 			}
 		}
 	}
