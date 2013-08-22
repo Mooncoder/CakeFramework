@@ -1,7 +1,7 @@
 <?
 /*
 __PocketMine Plugin__
-name=framework
+name=Framework
 description=A Dynamic framework.
 version=1.0.0
 author=sekjun9878
