@@ -48,8 +48,8 @@ class BootStrap
 		}
 		foreach ($this->Registered->Commands as $key => $value) {
 			if (strtolower($key) == $data['cmd']) {
-				if (include ($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php") != 'OK')
-					console("Warning: Failed to register command $key: Could not open file $value");
+				if (file_exists($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php") == false or include ($this->path . "Commands/" . ucfirst(strtolower($key)) . ".php") != 'OK')
+					console("Warning: Failed to perform command $key: Could not open file $value");
 			} else {
 				console("Command doesn't exist! Use /help\n");
 			}
