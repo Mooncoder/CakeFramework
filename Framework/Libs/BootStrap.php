@@ -37,12 +37,13 @@ class BootStrap
 	{
 		$this->config['config']->reload();
 		foreach ($this->config['config']->get("Plugins") as $key) {
-			$this->Registered->Plugins->$key = new stdClass();
 			$this->Registered->Plugins->$key = true;
-			$config = new Config($this->path . "/Plugins/" . ucfirst(strtolower($key)) . "/" . "Commands.yml", CONFIG_YAML, false);
-			foreach ($config->getAll(true) as $keyd) {
-				$temp = strtolower($keyd);
-				$this->Registered->Commands->$temp = ucfirst(strtolower($key));
+			foreach (glob($this->path . "Plugins/$key/Commands/*.php", GLOB_BRACE) as $command) {
+				$temp = explode("/", $command);
+				$temp = end($temp);
+				$temp = substr($temp, 0, -4);
+				$temp = ucfirst(strtolower($temp));
+				$this->Registered->Commands->$temp = $key;
 			}
 		}
 	}
