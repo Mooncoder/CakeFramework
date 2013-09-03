@@ -13,8 +13,6 @@ class Framework implements Plugin
 {
 	private $api, $server;
 
-	private $config;
-
 	private $BootStrap;
 
 	public function __construct(ServerAPI $api, $server = false)
@@ -28,7 +26,6 @@ class Framework implements Plugin
 		//Include Bootstrap - Bootstrap variable can be later unset to reload framework.
 		require_once($this->api->plugin->configPath($this) . "Libs/BootStrap.php");
 		$BootStrap = new BootStrap(array(
-			"config" => $this->config['config'],
 			"api" => $this->api,
 			"server" => $this->server,
 			"path" => $this->api->plugin->configPath($this),

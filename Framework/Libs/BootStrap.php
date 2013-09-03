@@ -12,7 +12,6 @@ class BootStrap
 	private $Registered;
 	private $api, $server;
 	private $path;
-	private $config;
 
 	public function __construct($data)
 	{
@@ -24,26 +23,26 @@ class BootStrap
 		$this->api = $data['api'];
 		$this->server = $data['server'];
 
-		$this->config['config'] = new Config($this->path . "Plugins.yml", CONFIG_YAML, array(
-			"Plugins" => array(
-				"Demo"
-			),
-		));
-
-		$this->mapCommands();
+		$this->reloadMap();
 	}
 
-	public function mapCommands()
+	public function reloadMap()
 	{
-		$this->config['config']->reload();
-		foreach ($this->config['config']->get("Plugins") as $key) {
-			$this->Registered->Plugins->$key = true;
-			foreach (glob($this->path . "Plugins/$key/Commands/*.php", GLOB_BRACE) as $command) {
-				$temp = explode("/", $command);
-				$temp = end($temp);
-				$temp = substr($temp, 0, -4);
-				$temp = ucfirst(strtolower($temp));
-				$this->Registered->Commands->$temp = $key;
+		$results = scandir($this->path . "Plugins");
+		foreach ($results as $result) {
+			if ($result === '.' or $result === '..') continue;
+
+			if (is_dir($this->path . "Plugins" . '/' . $result)) {
+				foreach ($result as $key) {
+					$this->Registered->Plugins->$key = true;
+					foreach (glob($this->path . "Plugins/$key/Commands/*.php", GLOB_BRACE) as $command) {
+						$temp = explode("/", $command);
+						$temp = end($temp);
+						$temp = substr($temp, 0, -4);
+						$temp = ucfirst(strtolower($temp));
+						$this->Registered->Commands->$temp = $key;
+					}
+				}
 			}
 		}
 	}
@@ -52,7 +51,7 @@ class BootStrap
 	{
 		if ($data['cmd'] == 'reload') {
 			console("Reloading Framework...");
-			$this->mapCommands();
+			$this->reloadMap();
 			return true;
 		}
 		foreach ($this->Registered->Commands as $key => $value) {
