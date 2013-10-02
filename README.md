@@ -17,5 +17,4 @@ $this->API
 $this->Server
 $this->Player(If the command gets a Player object, may be a username so be sure to check it.)
 $this->Level(If the command gets a Player object which has a level object)
-$this->env->Path(Config File Path)
 ```
