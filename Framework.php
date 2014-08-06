@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 __PocketMine Plugin__
 name=Framework
